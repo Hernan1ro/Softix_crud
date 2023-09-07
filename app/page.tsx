@@ -1,95 +1,70 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import styles from "./page.module.css";
+import { PageIcon } from "@/components/Icons/PageIcon";
+import Link from "next/link";
+import { Header } from "@/components/Header";
+import Swal from "sweetalert2";
+import { Button } from "@/components/Button";
 
 export default function Home() {
+  const [filter, setFilter] = useState("create_client");
+
+  const componentName: any = {
+    create_client: "Crear cliente",
+    edit_client: "Editar cliente",
+    search_client: "Buscar cliente",
+  };
+  const componentButton: any = {
+    create_client: <Button type="create_client" text="Crear Cliente" />,
+    edit_client: <Button type="edit_client" text="Editar Cliente" />,
+    search_client: <Button type="search_client" text="Consultar Cliente" />,
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <>
+      <Header />
+      <main className={styles.main}>
+        <aside className={styles.aside}>
+          <div className={styles.aside_nav}>
+            <div onClick={() => setFilter("create_client")}>
+              <PageIcon
+                is_active={filter === "create_client"}
+                icon="create_client"
+              />
+            </div>
+            <div onClick={() => setFilter("edit_client")}>
+              <PageIcon
+                is_active={filter === "edit_client"}
+                icon="edit_client"
+              />
+            </div>
+            <div onClick={() => setFilter("search_client")}>
+              <PageIcon
+                is_active={filter === "search_client"}
+                icon="search_client"
+              />
+            </div>
+          </div>
+          <Image
+            className={styles.logout_btn}
+            src="/icons/signout.svg"
+            alt="Sign out"
+            width={45}
+            height={45}
+          />
+        </aside>
+        <div className={styles.main_content}>
+          <div className={styles.form_container}>
+            <div className={styles.form_container_name}>
+              <h1>{componentName[filter]}</h1>
+            </div>
+            {componentButton[filter]}
+          </div>
         </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+      </main>
+    </>
+  );
 }
